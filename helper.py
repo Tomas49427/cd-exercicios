@@ -4,3 +4,5 @@ def get_project_root_path() -> str:
 
 def get_resources_path() -> str:
     return get_project_root_path() + "resources/"
+
+
