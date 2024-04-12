@@ -74,12 +74,29 @@ def encrypt_area(image_path, output_path, key_path, coords_path):
         coords_file.write(','.join(map(str, coords)))
 
 
+def decrypt_area(image_path, key_path, coords_path, output_path):
+    with open(key_path, 'rb') as key_file:
+        key = key_file.read()
+
+    with open(coords_path, 'r') as coords_file:
+        coords = tuple(map(int, coords_file.read().split(',')))
+
+    image = load_image(image_path)
+    cropped_image = extract_and_cipher(image, coords, key)
+    patched_image = patch_image(image, cropped_image, (coords[0], coords[1]))
+    #patched_image.show()
+    patched_image.save(output_path)
+
+
 if __name__ == "__main__":
-   # img_path = helper.get_resources_path() + "color_images/barries.tif"
-    img_path = "original_image.jpg"
+    # img_path = helper.get_resources_path() + "color_images/barries.tif"
+    img_path = "original_image.tif"
     key_path = "encryption_key.bin"
-    encrypted_img_path = "encrypted_image.jpg"
+    encrypted_img_path = "encrypted_image.tif"
     coords_path = "coords.txt"
-    encrypt_area(img_path, encrypted_img_path, key_path, coords_path)
+
+    # Selecionar a aoperação: cifrar ou decifrar
+    #encrypt_area(img_path, encrypted_img_path, key_path, coords_path)
+    decrypt_area(encrypted_img_path, key_path, coords_path, "decrypted_image.tif")
 
 
