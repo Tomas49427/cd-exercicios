@@ -2,6 +2,7 @@ import math
 import os
 import matplotlib.pyplot as plt
 
+
 # EX 3, a
 def count_symbols(file_content, file_name):
     # Initialize the count of symbols
@@ -53,7 +54,7 @@ def count_symbols(file_content, file_name):
 
 
 def main():
-    folder_path = "../recursos/TestFilesCD"
+    folder_path = "../resources/testFiles"
     # List all files in the directory
     file_list = os.listdir(folder_path)
 
