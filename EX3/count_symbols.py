@@ -2,9 +2,8 @@ import math
 import os
 import matplotlib.pyplot as plt
 
-
-# PIL ver mais tarde
-def count_symbols(file_content):
+# EX 3, a
+def count_symbols(file_content, file_name):
     # Initialize the count of symbols
     symbol_counts = {}
     total_symbols = 0
@@ -49,7 +48,7 @@ def count_symbols(file_content):
 
     plt.xlabel('Symbol')
     plt.ylabel('Frequency')
-    plt.title('Symbol Frequencies Histogram')
+    plt.title('Symbol Frequency for ' + file_name)
     plt.show()
 
 
@@ -59,10 +58,11 @@ def main():
     file_list = os.listdir(folder_path)
 
     for file_name in file_list:
+        print(f"Symbols for {file_name}:")
         # Read the content of each file
         with open(os.path.join(folder_path, file_name), 'rb') as file:
             file_content = file.read()
-            count_symbols(file_content)
+            count_symbols(file_content, file_name)
 
 
 main()
