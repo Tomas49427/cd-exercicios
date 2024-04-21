@@ -24,8 +24,9 @@ class SymbolSource:
         print('Símbolos e probabilidades associadas:')
         for i in range(len(self.symbols)):
             symbol_char = chr(self.symbols[i])
-            print(f'Símbolo: {self.symbols[i]} [{symbol_char}] - Probabilidade: {self.probabilities[i]:.2f}')
-
+            # format() para maior precisão
+            prob_formatted = format(self.probabilities[i], '.5f')  # Ajustar o '.5f' para aumentar ou diminuir a precisão
+            print(f'Símbolo: {self.symbols[i]} [{symbol_char}] - Probabilidade: {prob_formatted}')
 
     # Enum para símbolos permitidos
     SYMBOLS = {
