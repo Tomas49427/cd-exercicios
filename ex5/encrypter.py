@@ -6,7 +6,7 @@ from datetime import datetime
 from os import path, makedirs
 from crypto import xor_img_key, xor_img_key_partial
 
-
+# Encrypts the entire image by XORing its bytes with a generated key
 def encrypt_full(file: str) -> (str, str):
     img = Image.open(file)
     img_bytes = img.tobytes()
@@ -15,7 +15,7 @@ def encrypt_full(file: str) -> (str, str):
     result = xor_img_key(img_bytes, key)
     return save_encrypted(file, result, img, False, key)
 
-
+# Encrypts a portion of the image by XORing its bytes with a generated key, based on specified ranges
 def encrypt_partial(file: str, vertical_start: int, vertical_end: int, horizontal_start: int, horizontal_end: int) -> (str, str):
     img = Image.open(file)
     img_bytes = img.tobytes()
@@ -25,7 +25,7 @@ def encrypt_partial(file: str, vertical_start: int, vertical_end: int, horizonta
                                  horizontal_end)
     return save_encrypted(file, result, img, True, key)
 
-
+# Saves the encrypted image and its key to disk, returning the paths of the saved files
 def save_encrypted(file: str, result: bytearray, img: Image, partial: bool, key: bytes) -> (str, str):
     encrypted = Image.frombytes(img.mode, img.size, bytes(result))
     dt_string = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
