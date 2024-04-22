@@ -16,6 +16,6 @@ int file_symbol_freq(char *file_name, char symbol){
 int main() {
     char symbol = 'o';
     char filename[] = "input.txt";
-    printf("The number of times %c appeared in %s was %d\n",symbol,filename, file_symbol_freq(filename,symbol));
+    printf("The number of times %c appeared in %s was %d\n", symbol, filename, file_symbol_freq(filename,symbol));
     return 0;
 }
