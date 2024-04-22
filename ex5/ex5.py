@@ -6,6 +6,7 @@ from encrypter import encrypt_full, encrypt_partial
 from decrypter import decrypt_full, decrypt_partial
 
 
+# Custom QLabel subclass for drawing rectangles on images
 class ImageLabel(QLabel):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -14,20 +15,24 @@ class ImageLabel(QLabel):
         self.end = QPoint()
         self.drawing = False
 
+    # Handles mouse press events to start drawing
     def mousePressEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
             self.start = event.pos()
             self.drawing = True
 
+    # Handles mouse move events to update the end point of the rectangle
     def mouseMoveEvent(self, event):
         if self.drawing:
             self.end = event.pos()
             self.update()
 
+    # Handles mouse release events to stop drawing
     def mouseReleaseEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
             self.drawing = False
 
+    # Overrides paintEvent to draw a rectangle on the image
     def paintEvent(self, event):
         super().paintEvent(event)
         if self.drawing:
@@ -36,6 +41,7 @@ class ImageLabel(QLabel):
             painter.drawRect(QRect(self.start, self.end).normalized())
 
 
+# Main application window
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
@@ -48,6 +54,7 @@ class MainWindow(QWidget):
         self.key_file = ""
         self.initUI()
 
+    # Initializes the UI components
     def initUI(self):
         self.setWindowTitle('File Explorer and Encrypt')
         self.setGeometry(100, 100, 400, 300)
@@ -88,6 +95,7 @@ class MainWindow(QWidget):
         layout.addWidget(scroll)
         self.setLayout(layout)
 
+    # Opens a file dialog to select an image file
     def openFileNameDialog(self):
         fileName, _ = QFileDialog.getOpenFileName(self, "Choose File", "",
                                                   "Images (*.png *.xpm *.jpg *.tif);;All Files (*)")
@@ -97,6 +105,7 @@ class MainWindow(QWidget):
             self.imageLabel.setPixmap(pixmap)
         self.encryptButton.setDisabled(False)
 
+    # Encrypts the selected image file
     def encryptFile(self):
         file_name = self.fileLabel.text()
         (encrypted_file, key) = encrypt_full(
@@ -109,6 +118,7 @@ class MainWindow(QWidget):
         self.key_file = key
         self.decryptButton.setDisabled(False)
 
+    # Decrypts the selected image file
     def decryptFile(self):
         file_name = self.fileLabel.text()
         decrypted_file = decrypt_full(file_name,
@@ -120,6 +130,7 @@ class MainWindow(QWidget):
         self.fileLabel.setText(decrypted_file)
         self.key_file = ""
 
+    # Clears the selection rectangle on the image
     def clearSelection(self):
         pixmap = QPixmap(self.fileLabel.text())
         self.imageLabel.end = QPoint()
@@ -127,6 +138,7 @@ class MainWindow(QWidget):
         self.imageLabel.setPixmap(pixmap)
 
 
+# Entry point for the application
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     mainWindow = MainWindow()
