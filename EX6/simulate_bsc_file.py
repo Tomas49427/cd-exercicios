@@ -20,10 +20,15 @@ def simulate_bsc_file(input_file, output_file, p):
     with open(output_file, 'wb') as output_file:
         output_file.write(bytes(int(out_sequence[i:i + 8], 2) for i in range(0, len(out_sequence), 8)))
 
+    # Group the sequences into bytes
+    in_bytes = [in_sequence[i:i + 8] for i in range(0, len(in_sequence), 8)]
+    out_bytes = [out_sequence[i:i + 8] for i in range(0, len(out_sequence), 8)]
+
     # Calculate the number of errors
-    num_errors = sum(a != b for a, b in zip(in_sequence, out_sequence))
+    num_errors = sum(a != b for a, b in zip(in_bytes, out_bytes))
+
     # Calculate the length of the sequence
-    length = len(in_sequence)
+    length = len(in_bytes)
     return num_errors, length
 
 
@@ -35,8 +40,8 @@ def write_bsc_file(file, data):
 
 def main():
     n_errors, length = simulate_bsc_file(in_file_path, out_file_path, probability)
-    print(f"Number of errors for file {in_file_path} is {n_errors}, with p = {probability}")
-    print(f"Error rate for file {in_file_path} is {n_errors / length}, with p = {probability}")
+    print(f"Number of errors for the symbols for the file {in_file_path} is {n_errors}, with p = {probability}")
+    print(f"Error rate for file {in_file_path} is {n_errors / length} , with p = {probability}")
 
 
 main()
